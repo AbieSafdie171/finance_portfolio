@@ -13,3 +13,25 @@
  *= require_tree .
  *= require_self
  */
+
+@import "bootstrap";
+
+.navbar {
+  background-color: #90ee90 !important;
+}
+
+/* Show the dropdown on hover */
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0; /* Optional: Adjust as needed to align the dropdown */
+}
+
+.dropdown-menu {
+  display: none; /* Ensure it's hidden by default */
+  margin-top: 0; /* Adjust the alignment */
+}
+
+/* Optional: Change cursor to indicate hover interaction */
+.nav-item.dropdown:hover .nav-link {
+  cursor: pointer;
+}
