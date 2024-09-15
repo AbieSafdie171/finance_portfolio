@@ -1,8 +1,48 @@
-
-
-
 <% if user_signed_in? %>
-	<h3><%= current_user.username %></h3>
+	<h3><% current_user.username + "'s Finances!" %></h3>
+
+	<div class="chart-container"; style="width: 50%; margin: auto;">
+		  <canvas id="moneyChart"></canvas>
+		 <div>
+		<h4>My Net Worth: <%= current_user.income %> </h4>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script>
+		  document.addEventListener('turbo:load', function() {
+		  const labels = ["8/2024"];
+		  const data = [14000];
+
+		  const ctx = document.getElementById('moneyChart').getContext('2d');
+		  const moneyChart = new Chart(ctx, {
+		    type: 'line',
+		    data: {
+		      labels: labels,
+		      datasets: [{
+		        label: 'Net Worth',
+		        data: data,
+		        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+		        borderColor: 'rgba(75, 192, 192, 1)',
+		        borderWidth: 2
+		      }]
+		    },
+		    options: {
+		      scales: {
+		        y: {
+		          beginAtZero: true,
+		          title: {
+		            display: true,
+		            text: '$'
+		          }
+		        }
+		      }
+		    }
+		  });
+		});
+	</script>
+
 <% else %>
 	<h3>Please Sign in to view your finances.</h3>
 <% end %>
+
