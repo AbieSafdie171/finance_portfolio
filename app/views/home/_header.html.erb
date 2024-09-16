@@ -7,16 +7,19 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="#">Budget Calculator</a>
+          <%= link_to 'Budget Calculator', budget_calculator_path, class:"nav-link"%>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Savings and Investments</a>
+          <%= link_to 'Savings and Investments', savings_investments_path, class:"nav-link"%>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Properties</a>
+          <%= link_to 'Property Management', property_path, class:"nav-link"%>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Tax Calculator</a>
+          <%= link_to 'Tax Calculator', tax_calculator_path, class:"nav-link"%>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Interest Calculator', interest_calculator_path, class:"nav-link"%>
         </li>
       </ul>
       <ul class="navbar-nav ms-auto">
