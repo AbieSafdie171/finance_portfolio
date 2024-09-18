@@ -1,3 +1,4 @@
+    <%= stylesheet_link_tag 'interest_calculator', media: 'all' %>
     <div class="total-balance-container">
         <div class="total-balance">
             <h2>Total Balance: <span id="balance-amount">$5,000</span></h2>
@@ -62,7 +63,7 @@
                         principalData.push(principal);
                         interestData.push(interest);
                         totalData.push(principal + interest);
-                        labels.push(`Year ${i}`);
+                        labels.push(`${i}`);
                     }
                     
                     return { principalData, interestData, totalData, labels, finalValue: totalData[years] };
@@ -167,7 +168,7 @@
         </div>
     </div>
 <div class="accountant-oat">
-  <%= image_tag 'donut.jpg', id: 'accountant-oat-image', class: 'oat-accountant-specs', alt: 'Oat Explanation' %>
+  <%= image_tag 'ai_oat.jpg', id: 'accountant-oat-image', class: 'oat-accountant-specs', alt: 'Oat Explanation' %>
   <div class="text-content">
     <h3><b>Accountant Oat's Friendly Tip:</b> Use this graph to learn the powers of compounding interest!</h3>
     <br/>
