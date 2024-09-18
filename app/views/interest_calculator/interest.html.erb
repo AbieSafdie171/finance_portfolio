@@ -14,16 +14,8 @@
             </div>
 
             <div class="form-group">
-                <label for="contribution_amount">Contribution Amount</label>
+                <label for="contribution_amount">Contribution (Per Year)</label>
                 <input type="number" id="contribution_amount" name="contribution_amount" placeholder="$100" />
-            </div>
-
-            <div class="form-group">
-                <label for="contribution_frequency">Contribution Frequency</label>
-                <div class="frequency-buttons">
-                    <button type="button" class="frequency-btn active">Monthly</button>
-                    <button type="button" class="frequency-btn">Annually</button>
-                </div>
             </div>
 
             <div class="form-group">
@@ -117,8 +109,8 @@
                             {
                                 label: 'Principal Balance',
                                 data: [],  // Initially empty, will be filled with user input
-                                borderColor: 'rgba(0, 0, 0, 1)',
-                                backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                backgroundColor: 'rgba(54, 162, 235, 0.1)',
                                 fill: true,
                                 tension: 0.4,
                             },
@@ -133,8 +125,8 @@
                             {
                                 label: 'Total Earned',
                                 data: [],  // Initially empty, will be filled with user input
-                                borderColor: 'rgba(54, 162, 235, 1)',
-                                backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                                borderColor: 'rgba(0, 0, 0, 1)', 
+                                backgroundColor: 'rgba(0, 0, 0, 0.1)',
                                 fill: true,
                                 tension: 0.4,
                             }
@@ -170,3 +162,20 @@
             </script>
         </div>
     </div>
+<div class="accountant-oat">
+  <%= image_tag 'donut.jpg', id: 'accountant-oat-image', class: 'oat-accountant-specs', alt: 'Oat Explanation' %>
+  <div class="text-content">
+    <h3><b>Accountant Oat's Friendly Tip:</b> Use this graph to learn the powers of compounding interest!</h3>
+    <br/>
+    <p>	I use the power of compounding interest to fuel my financial growth! By the age of 1, I was able to open 3 bakeries across the Santa Barbara area... and I get free donuts everyday because of them! </p>
+    <br/>
+    <p>
+    	I also have my own personal chef, chauffeur, and tennis ball tosser. If you want to be like me, start investing!
+    </p>
+  </div>
+</div>
+
+
+
+
+
