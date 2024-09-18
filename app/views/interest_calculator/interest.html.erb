@@ -20,7 +20,7 @@
 
             <div class="form-group">
                 <label for="time_to_grow">Time to Grow (Years)</label>
-                <input type="number" id="time_to_grow" name="time_to_grow" placeholder="5" />
+                <input type="number" id="time_to_grow" name="time_to_grow" placeholder="5" max="1000" step="1"/>
             </div>
 
             <div class="form-group">
@@ -34,6 +34,7 @@
             <script>
                 // Function to calculate the future value and principal
                 function calculateFutureValue(startingBalance, interestRate, years, contribution) {
+
                     let principalData = [];
                     let interestData = [];
                     let totalData = [];
@@ -46,6 +47,9 @@
                     interestData.push(interest);
                     totalData.push(principal + interest);
                     labels.push(`Year 0`);
+
+                    if (years > 1000)
+                		return { principalData, interestData, totalData, labels, finalValue: totalData[years] };
                     
                     for (let i = 1; i <= years; i++) {
                         const principal_interest = principal * interestRate;
