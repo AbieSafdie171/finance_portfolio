@@ -1,5 +1,13 @@
 class TaxCalculatorController < ApplicationController
 
+  def tax
+    income = params[:income]
+
+    puts income
+    puts "hello"
+
+  end
+
   FEDERAL_TAX_BRACKETS = {
     '10%' => [0, 11000],
     '12%' => [11001, 44725],
@@ -37,11 +45,6 @@ class TaxCalculatorController < ApplicationController
 
   def total_federal_tax(income)
     calculate_federal_tax(income) + social_security_tax(income) + medicare_tax(income)
-  end
-
-
-  def tax
-    @value = total_federal_tax(100000)
   end
 
 end

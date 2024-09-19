@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'tax_calculator', to: 'tax_calculator#tax'
   get 'property', to: 'property#property'
   get 'savings_investments', to: 'savings_investments#savings_investments'
+  resources :tax_calculator, only: [:create]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

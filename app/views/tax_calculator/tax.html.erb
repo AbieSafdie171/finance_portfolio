@@ -3,92 +3,105 @@
 	<div class="tax-details">
 	    <h3>Tax Details</h3>
 	        <div class="tax-form-group">
-	                <label for="starting_balance">Income</label>
-	                <input type="number" id="income" name="income" placeholder="$45,000" />
+	            <label for="starting_balance">Income</label>
+	            <input type="number" id="income" name="income" placeholder="$45,000" />
 	        </div>
 
 			<div class="tax-form-group">
-			    <label for="state">Residence</label>
+				<label for="state">Residence</label>
 			    <select id="state" name="state">
-			    	<option value="" disabled selected>Select State</option>
-			        <option value="Alabama">Alabama</option>
-			        <option value="Alaska">Alaska</option>
-			        <option value="Arizona">Arizona</option>
-			        <option value="Arkansas">Arkansas</option>
 			        <option value="California">California</option>
-			        <option value="Colorado">Colorado</option>
-			        <option value="Connecticut">Connecticut</option>
-			        <option value="Delaware">Delaware</option>
-			        <option value="Florida">Florida</option>
-			        <option value="Georgia">Georgia</option>
-			        <option value="Hawaii">Hawaii</option>
-			        <option value="Idaho">Idaho</option>
-			        <option value="Illinois">Illinois</option>
-			        <option value="Indiana">Indiana</option>
-			        <option value="Iowa">Iowa</option>
-			        <option value="Kansas">Kansas</option>
-			        <option value="Kentucky">Kentucky</option>
-			        <option value="Louisiana">Louisiana</option>
-			        <option value="Maine">Maine</option>
-			        <option value="Maryland">Maryland</option>
-			        <option value="Massachusetts">Massachusetts</option>
-			        <option value="Michigan">Michigan</option>
-			        <option value="Minnesota">Minnesota</option>
-			        <option value="Mississippi">Mississippi</option>
-			        <option value="Missouri">Missouri</option>
-			        <option value="Montana">Montana</option>
-			        <option value="Nebraska">Nebraska</option>
-			        <option value="Nevada">Nevada</option>
-			        <option value="New Hampshire">New Hampshire</option>
-			        <option value="New Jersey">New Jersey</option>
-			        <option value="New Mexico">New Mexico</option>
-			        <option value="New York">New York</option>
-			        <option value="North Carolina">North Carolina</option>
-			        <option value="North Dakota">North Dakota</option>
-			        <option value="Ohio">Ohio</option>
-			        <option value="Oklahoma">Oklahoma</option>
-			        <option value="Oregon">Oregon</option>
-			        <option value="Pennsylvania">Pennsylvania</option>
-			        <option value="Rhode Island">Rhode Island</option>
-			        <option value="South Carolina">South Carolina</option>
-			        <option value="South Dakota">South Dakota</option>
-			        <option value="Tennessee">Tennessee</option>
-			        <option value="Texas">Texas</option>
-			        <option value="Utah">Utah</option>
-			        <option value="Vermont">Vermont</option>
-			        <option value="Virginia">Virginia</option>
-			        <option value="Washington">Washington</option>
-			        <option value="West Virginia">West Virginia</option>
-			        <option value="Wisconsin">Wisconsin</option>
-			        <option value="Wyoming">Wyoming</option>
 			    </select>
 			</div>
-
 	</div>
 
 	<div class="tax-chart-section">
+		<h3>Tax Pie Chart</h3>
 	    <canvas id="taxChart"></canvas>
 	    <script>
-	        // Function to update the chart
-	        var ctx = document.getElementById('taxChart').getContext('2d');
-	        var taxChart = new Chart(ctx, {
-	            type: 'pie',  // Specify the chart type
+	    	document.addEventListener('turbo:load', (event) => {
+	        console.log("HELLOI THIS TIS A TEST");
+	        function calculateFederalTax(income) {
+	        	const FEDERAL_TAX_BRACKETS = [
+		            { rate: 0.10, lowerBound: 0, upperBound: 11000 },
+		            { rate: 0.12, lowerBound: 11001, upperBound: 44725 },
+		            { rate: 0.22, lowerBound: 44726, upperBound: 95375 },
+		            { rate: 0.24, lowerBound: 95376, upperBound: 182100 },
+		            { rate: 0.32, lowerBound: 182101, upperBound: 231250 },
+		            { rate: 0.35, lowerBound: 231251, upperBound: 578125 },
+		            { rate: 0.37, lowerBound: 578126, upperBound: Infinity }
+		        ];
+	            let tax = 0;
+	            const standardDeduction = 13850;
+	            income -= standardDeduction;
+
+	            for (const bracket of FEDERAL_TAX_BRACKETS) {
+	                if (income > bracket.lowerBound) {
+	                    const taxableAmount = Math.min(income - bracket.lowerBound, bracket.upperBound - bracket.lowerBound);
+	                    tax += taxableAmount * bracket.rate;
+	                }
+	            }
+
+	            return tax;
+	        }
+
+	        function socialSecurityTax(income) {
+	            return income * 0.062;
+	        }
+
+	        function medicareTax(income) {
+	            return income * 0.0145;
+	        }
+
+	        function stateTax(income){
+	        	const CALIFORNIA_TAX_BRACKETS = [
+		            { rate: 0.01, lowerBound: 0, upperBound: 10412 },
+		            { rate: 0.02, lowerBound: 10413, upperBound: 24684 },
+		            { rate: 0.04, lowerBound: 24685, upperBound: 38959 },
+		            { rate: 0.06, lowerBound: 38960, upperBound: 54081 },
+		            { rate: 0.08, lowerBound: 54082, upperBound: 68350 },
+		            { rate: 0.093, lowerBound: 68351, upperBound: 349137 },
+		            { rate: 0.103, lowerBound: 349138, upperBound: 418961 },
+		            { rate: 0.113, lowerBound: 418962, upperBound: 698271 },
+		            { rate: 0.123, lowerBound: 698272, upperBound: Infinity },
+		        ];
+	        	let tax = 0;
+				const stateStandardDeduction = 5363;
+	            income -= stateStandardDeduction;
+	            for (const bracket of CALIFORNIA_TAX_BRACKETS) {
+	                if (income > bracket.lowerBound) {
+	                    const taxableAmount = Math.min(income - bracket.lowerBound, bracket.upperBound - bracket.lowerBound);
+	                    tax += taxableAmount * bracket.rate;
+	                }
+	            }
+
+	            return tax;
+	        }
+
+	        function totalFederalTax(income) {
+	            return calculateFederalTax(income) + socialSecurityTax(income) + medicareTax(income);
+	        }
+
+	        // Initialize chart
+	        const tax_ctx = document.getElementById('taxChart').getContext('2d');
+	        const taxChart = new Chart(tax_ctx, {
+	            type: 'pie',
 	            data: {
-	                labels: ['Net Income', 'Federal Tax', 'State Tax', 'Other'],  // Labels for the pie chart
+	                labels: ['Net Income', 'Federal Tax', 'Social Security Tax', 'Medicare Tax'],
 	                datasets: [{
-	                    label: 'Tax Distribution',  // Dataset label
-	                    data: [70, 10, 10, 10],  // Placeholder data to be replaced with actual tax values
-	                    backgroundColor: [  // Colors for each section
+	                    label: 'Tax Distribution',
+	                    data: [0, 0, 0, 0],
+	                    backgroundColor: [
 	                        'rgba(54, 162, 235, 0.7)',
 	                        'rgba(255, 99, 132, 0.7)',
 	                        'rgba(255, 206, 86, 0.7)',
 	                        'rgba(255, 0, 86, 0.7)'
 	                    ],
-	                    borderColor: [  // Border colors for each section
+	                    borderColor: [
 	                        'rgba(54, 162, 235, 1)',
 	                        'rgba(255, 99, 132, 1)',
 	                        'rgba(255, 206, 86, 1)',
-	                        'rgba(255, 0, 86, 0.7)'
+	                        'rgba(255, 0, 86, 1)'
 	                    ],
 	                    borderWidth: 1
 	                }]
@@ -98,18 +111,86 @@
 	                plugins: {
 	                    legend: {
 	                        display: true,
-	                        position: 'top'  // Display the legend at the top
+	                        position: 'top'
 	                    },
 	                    tooltip: {
 	                        callbacks: {
 	                            label: function(tooltipItem) {
-	                                return '$' + tooltipItem.raw.toLocaleString();  // Format the tooltips as currency
+	                                return '$' + tooltipItem.raw.toLocaleString();
 	                            }
 	                        }
 	                    }
 	                }
 	            }
 	        });
-	    </script>
+
+	        // Update chart based on user input
+	        function updatePieChart() {
+	            const incomeInput = document.getElementById('income');
+	            const income = parseFloat(incomeInput.value) || 0;
+
+	            const federalTax = calculateFederalTax(income);
+	            const socialSecurity = socialSecurityTax(income);
+	            const medicare = medicareTax(income);
+	            const state = stateTax(income);
+	            const netIncome = income - federalTax - socialSecurity - medicare - state;
+
+	            taxChart.data.datasets[0].data = [netIncome, federalTax, socialSecurity, medicare];
+	            taxChart.update();
+
+	            document.getElementById('fed_income_tax').textContent = '$' + federalTax.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+	            document.getElementById('social_security_tax').textContent = '$' + socialSecurity.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+	            document.getElementById('medicare_tax').textContent = '$' + medicare.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+	            document.getElementById('state_income_tax').textContent = '$' + state.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+	            document.getElementById('net_income_value').textContent = '$' + netIncome.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+	        }
+
+		    // Event listeners for input changes
+		    document.getElementById('income').addEventListener('input', updatePieChart);
+		    document.getElementById('state').addEventListener('change', updatePieChart);
+
+		    updatePieChart();
+
+			});
+
+
+			
+		</script>
 	</div>
+
+	<div class="tax-info">
+		
+		<h3>Where are your taxes going?</h3>
+
+		<p> 
+			Federal Income Tax: <span id="fed_income_tax"></span> 
+			<br/>
+			Social Security: <span id="social_security_tax"></span> 
+			<br/>
+			Medicare: <span id="medicare_tax"></span> 
+			<br/>
+			State Income Tax: <span id="state_income_tax"></span> 
+		</p>
+
+		<h4>Your Net Income: <span id="net_income_value"></span>  </h4>
+
+
+	</div>
+</div>
+
+<div class="tax-oat">
+  <%= image_tag 'snowtala.jpg', id: 'tax-oat-image', class: 'oat-tax-specs', alt: 'tax Oat Explanation' %>
+  <div class="text-content">
+    <h3><b>Tax Dodger Oat's Friendly Tip:</b> Don't try and dodge taxes unless you're as cute as me... it won't end well for you...</h3>
+    <br/>
+    <p>	It might be demoralizing seeing all of your money go to the government, but just remember with the new bill congress passed, your tax dollars are buying me all kinds of toys!</p>
+    <br/>
+    <p>
+    	And it might seem like California is a tax-heavy state, but just remember that I live here, and if you want to share in my wealth, you better move out here!
+    </p>
+    <br/>
+    <p class="ps">
+    	PS: In case you're still unconvinced, California has an abundance of beautiful women that happen to be wearing wet t-shirts
+    </p>
+  </div>
 </div>
