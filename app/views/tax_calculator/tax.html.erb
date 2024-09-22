@@ -87,21 +87,23 @@
 	        const taxChart = new Chart(tax_ctx, {
 	            type: 'pie',
 	            data: {
-	                labels: ['Net Income', 'Federal Tax', 'Social Security Tax', 'Medicare Tax'],
+	                labels: ['Net Income', 'Federal Tax', 'Social Security Tax', 'Medicare Tax', 'State Tax'],
 	                datasets: [{
 	                    label: 'Tax Distribution',
-	                    data: [0, 0, 0, 0],
+	                    data: [0, 0, 0, 0, 0],
 	                    backgroundColor: [
 	                        'rgba(54, 162, 235, 0.7)',
 	                        'rgba(255, 99, 132, 0.7)',
 	                        'rgba(255, 206, 86, 0.7)',
-	                        'rgba(255, 0, 86, 0.7)'
+	                        'rgba(255, 0, 86, 0.7)',
+	                        'rgba(153, 102, 255, 0.7)'
 	                    ],
 	                    borderColor: [
 	                        'rgba(54, 162, 235, 1)',
 	                        'rgba(255, 99, 132, 1)',
 	                        'rgba(255, 206, 86, 1)',
-	                        'rgba(255, 0, 86, 1)'
+	                        'rgba(255, 0, 86, 1)',
+	                        'rgba(153, 102, 255, 1)'
 	                    ],
 	                    borderWidth: 1
 	                }]
@@ -135,7 +137,7 @@
 	            const state = stateTax(income);
 	            const netIncome = income - federalTax - socialSecurity - medicare - state;
 
-	            taxChart.data.datasets[0].data = [netIncome, federalTax, socialSecurity, medicare];
+	            taxChart.data.datasets[0].data = [netIncome, federalTax, socialSecurity, medicare, state];
 	            taxChart.update();
 
 	            document.getElementById('fed_income_tax').textContent = '$' + federalTax.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -144,8 +146,10 @@
 	            document.getElementById('state_income_tax').textContent = '$' + state.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 	            document.getElementById('net_income_value').textContent = '$' + netIncome.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+	            if (income != 0){
 	            let percent = ((federalTax + socialSecurity + medicare + state) / income) * 100;
 	            document.getElementById('tax_percent').textContent = percent.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+	        }
 	            
 	        }
 
@@ -178,7 +182,7 @@
 
 		<h4>Your Net Income: <span id="net_income_value"></span>  </h4>
 		<br/>
-		<p><span id="tax_percent"></span>% of your gross income went to tax</p>
+		<p class="percent_id"><span id="tax_percent"></span>% of your gross income went to tax</p>
 
 
 	</div>
@@ -187,7 +191,7 @@
 <div class="tax-oat">
   <%= image_tag 'snowtala.jpg', id: 'tax-oat-image', class: 'oat-tax-specs', alt: 'tax Oat Explanation' %>
   <div class="text-content">
-    <h3><b>Tax Dodger Oat's Friendly Tip:</b> Don't try and dodge taxes unless you're as cute as me... it won't end well for you...</h3>
+    <h3><b>Tax Dodger Oat's Friendly Advice:</b> Don't try and dodge taxes unless you're as cute as me... it won't end well for you...</h3>
     <br/>
     <p>	It might be demoralizing seeing all of your money go to the government, but just remember, with the new bill congress passed, your tax dollars are buying me all kinds of toys!</p>
     <br/>
@@ -196,7 +200,7 @@
     </p>
     <br/>
     <p class="ps">
-    	PS: In case you're still unconvinced, California has an abundance of beautiful women that happen to be wearing wet t-shirts
+    	*Personal Income Taxes can be complex so this is an oversimplified calculator
     </p>
   </div>
 </div>

@@ -1,0 +1,54 @@
+.property-details {
+    margin-top: 50px;
+    background-color: #f9f0e5;
+    padding: 20px;
+    border-radius: 8px;
+    flex-grow: 1;
+}
+
+.property-details h3 {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.property-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.property-table th, .property-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    width: 20%;
+}
+
+.property-table th {
+    background-color: #f1f1f1;
+}
+
+.property-oat {
+  margin-top: 30px;
+  display: flex;               /* Flexbox layout to align image and text horizontally */
+  align-items: flex-start;     /* Align items at the top of the container */
+  background-color: #f9f0e5;   /* Beige background color */
+  padding: 10px;               /* Padding inside the border */
+  border-radius: 8px;          /* Optional: Slight rounding of border corners */
+  width: 100%;                 /* Make sure the border spans the full width */
+  box-sizing: border-box;      /* Include padding in the element's total width */
+  margin-bottom: 20px;         /* Space below the container */
+}
+
+.oat-property-specs {
+  width: 200px;
+  height: auto;
+  margin-right: 15px;          /* Space between the image and the text container */
+}
+
+.ps {
+  font-size: 10px;
+}

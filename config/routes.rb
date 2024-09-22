@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'budget_calculator', to: 'budget_calculator#budget'
   get 'tax_calculator', to: 'tax_calculator#tax'
   get 'property', to: 'property#property'
+  get 'oatie', to: 'oatie#oatie'
   get 'savings_investments', to: 'savings_investments#savings_investments'
   resources :tax_calculator, only: [:create]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

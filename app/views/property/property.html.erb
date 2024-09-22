@@ -1,3 +1,38 @@
-<h>oat's real estate empire</h>
-<br/>
-<%= image_tag 'grass_oat.jpg', alt: 'Logo', class: 'logo-class', width: '375', height: '500' %>
+<% if user_signed_in? %>
+	<%= stylesheet_link_tag 'property', media: 'all' %>
+	<div class="property-details">
+	    <h3>Properties</h3>
+	    
+	    <!-- Property Table -->
+	    <table id="propertyTable" class="property-table">
+	        <thead>
+	            <tr>
+	                <th>Location</th>
+	                <th>Revenue</th>
+	                <th>Operating Costs</th>
+	                <th>Income</th>
+	                <th>Edit</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        </tbody>
+	    </table>
+	</div>
+
+	<div class="property-oat">
+	  <%= image_tag 'work.jpg', id: 'property-oat-image', class: 'oat-property-specs', alt: 'Property Oat Explanation' %>
+	  <div class="text-content">
+	    <h3><b>Property Mogul Oat's Friendly Advice:</b> Make your dreams of being a landlord a reality! </h3>
+	    <br/>
+	    <p>	I own countless properties across California that generate a significant passive income stream. In fact, I make so much money from them that I get to hang out in my dog bed all day at my mom's work! And if she's not giving me enough attention, I'll play with my best friend Malka and my favorite tennis balls! And although I'm a master negotiator and businessdog, don't be deterred, you can live this lifestyle too! Happy property hunting!*</p>
+	    <br/>
+	    <p class="ps">
+	    	*But don't you dare step on my turf, all of Southern California is mine...
+	    </p>
+	    </p>
+	  </div>
+	</div>
+
+<% else %>
+	<h3>Please Sign in to view your Properties.</h3>
+<% end %>
