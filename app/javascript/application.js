@@ -4,4 +4,5 @@ import "controllers"
 import "bootstrap"
 import "bootstrap/dist/css/bootstrap"
 import { Turbo } from "@hotwired/turbo-rails"
+import "custom/property"
 Turbo.start()

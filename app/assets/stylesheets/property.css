@@ -12,6 +12,18 @@
     margin-bottom: 20px;
     text-align: center;
 }
+.property-details h4 {
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#total_profit_value {
+  font-size: 1.2em;
+  color: #2e7d32; /* Green color */
+  font-weight: bold;
+}
 
 .property-table {
     width: 100%;
@@ -20,15 +32,20 @@
     table-layout: fixed;
 }
 
-.property-table th, .property-table td {
+.property-table td {
     border: 1px solid #ddd;
+    background-color: #f1f1f1;
     padding: 10px;
     text-align: left;
     width: 20%;
 }
 
 .property-table th {
-    background-color: #f1f1f1;
+    background-color: #ebecf0;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    width: 20%;
 }
 
 .property-oat {
@@ -52,3 +69,83 @@
 .ps {
   font-size: 10px;
 }
+.add-property-button {
+    background-color: #f1f1f1; /* Light gray background */
+    color: #333; /* Darker gray for the plus sign */
+    border: 2px solid #333;;
+    border-radius: 5px; /* Square button with slightly rounded corners */
+    width: 100px; /* Square size */
+    height: 30px;
+    font-size: 12px; /* Size of the plus sign */
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    float: right; /* Align the button to the right */
+    margin-top: -40px;
+    margin-bottom: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-property-button:hover {
+    background-color: #bbb; /* Darken the background on hover */
+}
+
+/* The Modal (hidden by default) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Black background with opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #f9f0e5;
+    margin: 8% auto; /* 8% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+}
+
+/* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.property-label{
+    margin-top: 15px;
+}
+
+.property-input{
+    width: 100%;
+    margin-top: 10px;
+}
+
+form button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #218838;
+}
+

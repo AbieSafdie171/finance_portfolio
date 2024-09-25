@@ -1,22 +1,47 @@
+<%= javascript_include_tag 'custom/property', defer: true %>
 <% if user_signed_in? %>
 	<%= stylesheet_link_tag 'property', media: 'all' %>
 	<div class="property-details">
 	    <h3>Properties</h3>
+
+	    <button id="addPropertyButton" class="add-property-button">Add Property</button>
+
+	    <!-- Modal -->
+		<div id="propertyModal" class="modal">
+		  <div class="modal-content">
+		    <h2>Add New Property<span class="close">&times;</span></h2>
+		    <form id="propertyForm">
+		        <label class="property-label" for="location">Location/Address</label>
+		        <input class="property-input" type="text" id="location" name="location" required>
+		        <br/>
+
+		        <label class="property-label" for="revenue">Revenue (Per Month)</label>
+		        <input class="property-input" type="number" id="revenue" name="revenue" required>
+		        <br/>
+
+		        <label class="property-label" for="expenses">Operating Costs (Per Month)</label>
+		        <input class="property-input" type="number" id="expenses" name="expenses" required>
+		        <br/>
+
+		        <button type="submit">Add Property</button>
+		    </form>
+		  </div>
+		</div>
 	    
 	    <!-- Property Table -->
 	    <table id="propertyTable" class="property-table">
 	        <thead>
 	            <tr>
-	                <th>Location</th>
+	                <th>Location/Address</th>
 	                <th>Revenue</th>
 	                <th>Operating Costs</th>
-	                <th>Income</th>
 	                <th>Edit</th>
 	            </tr>
 	        </thead>
 	        <tbody>
 	        </tbody>
 	    </table>
+	    <h4>Total Profit (Per Month): <span id="total_profit_value">$</span></h4>
 	</div>
 
 	<div class="property-oat">

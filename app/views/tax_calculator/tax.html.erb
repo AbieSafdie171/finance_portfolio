@@ -20,7 +20,6 @@
 	    <canvas id="taxChart"></canvas>
 	    <script>
 	    	document.addEventListener('turbo:load', (event) => {
-	        console.log("HELLOI THIS TIS A TEST");
 	        function calculateFederalTax(income) {
 	        	const FEDERAL_TAX_BRACKETS = [
 		            { rate: 0.10, lowerBound: 0, upperBound: 11000 },
@@ -66,7 +65,7 @@
 		            { rate: 0.123, lowerBound: 698272, upperBound: Infinity },
 		        ];
 	        	let tax = 0;
-				const stateStandardDeduction = 5363;
+						const stateStandardDeduction = 5363;
 	            income -= stateStandardDeduction;
 	            for (const bracket of CALIFORNIA_TAX_BRACKETS) {
 	                if (income > bracket.lowerBound) {
