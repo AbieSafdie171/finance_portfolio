@@ -21,6 +21,7 @@
     <!--< javascript_importmap_tags  -->
     <!--< javascript_include_tag "application", "data-turbo-track": "reload", defer: true %> -->
     <%= turbo_include_tags %>
+    <%= javascript_include_tag 'custom/property', "data-turbo-track": "reload" %>
     <link rel="icon" href="<%= asset_path('face_oat.ico') %>" type="image/x-icon">
 
   </head>
