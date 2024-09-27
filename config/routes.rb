@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'interest_calculator', to: 'interest_calculator#interest'
   get 'budget_calculator', to: 'budget_calculator#budget'
   get 'tax_calculator', to: 'tax_calculator#tax'
-  get 'property', to: 'property#property'
+  # get 'property', to: 'property#property'
   get 'oatie', to: 'oatie#oatie'
   get 'savings_investments', to: 'savings_investments#savings_investments'
   resources :tax_calculator, only: [:create]
@@ -20,4 +20,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  resources :properties, only: [:index, :create]
+
 end

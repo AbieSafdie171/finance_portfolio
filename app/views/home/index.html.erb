@@ -1,3 +1,4 @@
+<%= stylesheet_link_tag 'index', media: 'all' %>
 <% if user_signed_in? %>
 
 	<div class="net-worth-container">
@@ -13,39 +14,55 @@
 
         <div class="net-worth-chart-section">
             <canvas id="moneyChart"></canvas>
-            	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 				<script>
-					  document.addEventListener('turbo:load', function() {
-					  const labels = ["8/2024"];
-					  const data = [14000];
+				    if (typeof moneyChart === 'undefined') {
+    					var moneyChart; // Use var here to avoid redeclaration issues
+  					}
+				  var ctx = document.getElementById('moneyChart').getContext('2d');
 
-					  const ctx = document.getElementById('moneyChart').getContext('2d');
-					  const moneyChart = new Chart(ctx, {
-					    type: 'line',
-					    data: {
-					      labels: labels,
-					      datasets: [{
-					        label: 'Net Worth',
-					        data: data,
-					        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-					        borderColor: 'rgba(75, 192, 192, 1)',
-					        borderWidth: 2
-					      }]
-					    },
-					    options: {
-					      scales: {
-					        y: {
-					          beginAtZero: true,
-					          title: {
-					            display: true,
-					            text: '$'
-					          }
-					        }
-					      }
-					    }
-					  });
-					});
+				  function createChart() {
+				    const labels = ["8/2024"];
+				    const data = [14000];
+				    if (moneyChart) {
+				      console.log("destroying money chart");
+				      moneyChart.destroy();
+				    }
+				    moneyChart = new Chart(ctx, {
+				      type: 'line',
+				      data: {
+				        labels: labels,
+				        datasets: [{
+				          label: 'Net Worth',
+				          data: data,
+				          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+				          borderColor: 'rgba(75, 192, 192, 1)',
+				          borderWidth: 2
+				        }]
+				      },
+				      options: {
+				        scales: {
+				          y: {
+				            beginAtZero: true,
+				            title: {
+				              display: true,
+				              text: '$'
+				            }
+				          }
+				        }
+				      }
+				    });
+				  }
+
+				  document.addEventListener('turbo:load', function() {
+				    if (window.location.pathname === '/') {
+				      console.log("TURBO LOAD INDEX");
+				      createChart(); // Call the function to create or update the chart
+				    } else {
+				      console.log("TURBO LOAD INDEX BUT NOT THE INDEX PAGE SO DO NOTHING");
+				    }
+				  });
 				</script>
+
         </div>
     </div>
 

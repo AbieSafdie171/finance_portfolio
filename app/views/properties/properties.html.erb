@@ -1,11 +1,10 @@
-<%= javascript_include_tag 'custom/property', defer: true %>
 <% if user_signed_in? %>
 	<%= stylesheet_link_tag 'property', media: 'all' %>
 	<div class="property-details">
 	    <h3>Properties</h3>
-
+	    <%= javascript_include_tag 'custom/property', "data-turbo-track": "reload", defer: true %>
 	    <button id="addPropertyButton" class="add-property-button">Add Property</button>
-
+	    
 	    <!-- Modal -->
 		<div id="propertyModal" class="modal">
 		  <div class="modal-content">

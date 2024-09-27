@@ -1,60 +1,101 @@
-console.log("hello");
+console.log("Script is loaded");
 
-document.addEventListener('turbo:load', (event) => {
-    // Get the modal
-    const modal = document.getElementById("propertyModal");
 
-    // Get the button that opens the modal
-    const addPropertyButton = document.getElementById("addPropertyButton");
+const canvas = document.getElementById('moneyChart');
 
-    // Get the <span> element that closes the modal
-    const closeModal = document.getElementsByClassName("close")[0];
+console.log("CANVAS: ", canvas);
 
-    // Open the modal
-    addPropertyButton.onclick = function() {
-        modal.style.display = "block";
-    }
+if (canvas){
+    const ctx = canvas.getContext('2d');
+    console.log("its there: ", canvas);
+} 
 
-    // Close the modal
-    closeModal.onclick = function() {
-        modal.style.display = "none";
-    }
 
-    // Close modal if user clicks outside of it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+else {
+    console.log('Canvas element not found on this view');
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        console.log('DOM is fully loaded and parsed!');
+        if (window.location.pathname === '/properties'){
+            
+            const modal = document.getElementById("propertyModal");
+            const addPropertyButton = document.getElementById("addPropertyButton");
+            const closeModal = document.getElementsByClassName("close")[0];
+            // const propertyForm = document.getElementById("propertyForm");
+
+            console.log('Modal:', modal);
+            console.log('Add Property Button:', addPropertyButton);
+            console.log('Close Modal Button:', closeModal);
+            // console.log('Property Form:', propertyForm);
+
+            // Open the modal
+            addPropertyButton.onclick = function() {
+                modal.style.display = "block";
+            }
+
+            // Close the modal
+            closeModal.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // Close modal if user clicks outside of it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            // Handle form submission and send data to Rails via AJAX
+            const propertyForm = document.getElementById("propertyForm");
+            propertyForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent form submission
+
+                // Gather form data
+                const location = document.getElementById("location").value;
+                const income = document.getElementById("revenue").value;
+                const expenses = document.getElementById("expenses").value;
+
+                console.log(location, income, expenses);
+
+                // Send AJAX request to backend
+                fetch("/properties", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").getAttribute("content")
+                    },
+                    body: JSON.stringify({
+                        property: {
+                            property_address: location,
+                            revenue: income,
+                            operating_costs: expenses
+                        }
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log(data);
+                        // Add the new property to the table
+                        const table = document.getElementById("propertyTable").getElementsByTagName('tbody')[0];
+                        const newRow = table.insertRow();
+                        console.log("IF: ", data.property.property_address);
+                        newRow.insertCell(0).innerHTML = data.property.property_address;
+                        newRow.insertCell(1).innerHTML = '$' + data.property.revenue;
+                        newRow.insertCell(2).innerHTML = '$' + data.property.operating_costs;
+                        newRow.insertCell(3).innerHTML = '<button class="edit-btn">Edit</button>';
+                        
+
+                        // Clear the form and close the modal
+                        propertyForm.reset();
+                        modal.style.display = "none";
+                    } else {
+                        console.log("ELSE: ", data.property.property_address);
+                        alert("Error: " + data.errors.join(", "));
+                    }
+                })
+                .catch(error => console.error("Uh oh Error:", error));
+            });
         }
-    }
-
-    // Handle form submission and add data to table
-    const propertyForm = document.getElementById("propertyForm");
-    propertyForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form submission
-
-        // Get form values
-        const location = document.getElementById("location").value;
-        const revenue = document.getElementById("revenue").value;
-        const expenses = document.getElementById("expenses").value;
-
-        // Add a new row to the table
-        const table = document.getElementById("propertyTable").getElementsByTagName('tbody')[0];
-        const newRow = table.insertRow();
-
-        const cell1 = newRow.insertCell(0);
-        const cell2 = newRow.insertCell(1);
-        const cell3 = newRow.insertCell(2);
-        const cell4 = newRow.insertCell(3);
-
-        cell1.innerHTML = location;
-        cell2.innerHTML = '$' + revenue;
-        cell3.innerHTML = '$' + expenses;
-        cell4.innerHTML = '<button class="edit-btn">Edit</button>';
-
-        // Clear form
-        propertyForm.reset();
-
-        // Close the modal
-        modal.style.display = "none";
     });
-});
+}

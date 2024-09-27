@@ -8,6 +8,8 @@ class User < ApplicationRecord
   validates :income, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :residence, presence: true
 
+  has_many :properties, dependent: :destroy
+
   # Override Devise's email validation (allow blank)
   def email_required?
     false

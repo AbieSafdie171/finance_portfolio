@@ -1,3 +1,4 @@
+<%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <%= link_to 'Finance Portfolio', root_path, class:"navbar-brand"%>
@@ -10,10 +11,10 @@
           <%= link_to 'Savings and Investments', savings_investments_path, class:"nav-link"%>
         </li>
         <li class="nav-item">
-          <%= link_to 'Property Management', property_path, class:"nav-link"%>
+          <%= link_to 'Budget Calculator', budget_calculator_path, class:"nav-link"%>
         </li>
         <li class="nav-item">
-          <%= link_to 'Budget Calculator', budget_calculator_path, class:"nav-link"%>
+          <%= link_to 'Property Management', properties_path, class:"nav-link"%>
         </li>
         <li class="nav-item">
           <%= link_to 'Tax Calculator', tax_calculator_path, class:"nav-link"%>
