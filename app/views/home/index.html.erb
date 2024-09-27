@@ -24,7 +24,6 @@
 				    const labels = ["8/2024"];
 				    const data = [14000];
 				    if (moneyChart) {
-				      console.log("destroying money chart");
 				      moneyChart.destroy();
 				    }
 				    moneyChart = new Chart(ctx, {
@@ -55,10 +54,7 @@
 
 				  document.addEventListener('turbo:load', function() {
 				    if (window.location.pathname === '/') {
-				      console.log("TURBO LOAD INDEX");
 				      createChart(); // Call the function to create or update the chart
-				    } else {
-				      console.log("TURBO LOAD INDEX BUT NOT THE INDEX PAGE SO DO NOTHING");
 				    }
 				  });
 				</script>

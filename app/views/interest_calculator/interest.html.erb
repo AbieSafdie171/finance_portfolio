@@ -33,7 +33,7 @@
         <div class="chart-section">
             <canvas id="investmentChart"></canvas>
             <script>
-                console.log("HELLO WORLD THIS IS INTEREST CALCULATOR");
+                
                 // Function to calculate the future value and principal
                 function calculateFutureValue(startingBalance, interestRate, years, contribution) {
 
@@ -107,7 +107,13 @@
 
                 // Initialize the chart
                 var interest_ctx = document.getElementById('investmentChart').getContext('2d');
-                var investmentChart = new Chart(interest_ctx, {
+                if (typeof(investmentChart) === 'undefined'){
+                    var investmentChart;
+                }
+                if (investmentChart){
+                    investmentChart.destroy();
+                }
+                investmentChart = new Chart(interest_ctx, {
                     type: 'line',
                     data: {
                         labels: [],  // Initially empty, will be filled with user input
