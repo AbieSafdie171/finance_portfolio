@@ -1,8 +1,10 @@
 class PropertiesController < ApplicationController
   before_action :authenticate_user! # Ensure user is signed in
+  before_action :set_property, only: [:destroy]
 
   def index
     @properties = Property.all # Fetch all properties
+    @user_properties = current_user.properties
     render 'properties/properties' # Render the same view for index
   end
 
@@ -17,7 +19,20 @@ class PropertiesController < ApplicationController
     end
   end
 
+  def destroy
+    if @property.destroy
+      head :no_content
+    else
+      render json: { success: false, errors: "Failed to delete property" }, status: :unprocessable_entity
+    end
+  end
+
   private
+
+
+  def set_property
+    @property = Property.find(params[:id])
+  end
 
   def property_params
     params.require(:property).permit(:property_address, :revenue, :operating_costs)

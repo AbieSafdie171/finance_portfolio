@@ -2,12 +2,6 @@
 	<%= stylesheet_link_tag 'property', media: 'all' %>
 	<div class="property-details">
 	    <h3>Properties</h3>
-	    <script>
-	    	document.addEventListener('DOMContentLoaded', (event) => {
-			    console.log('DOMContentLoaded inlined triggered');
-			});
-
-	    </script>
 	    <button id="addPropertyButton" class="add-property-button">Add Property</button>
 	    
 	    <!-- Modal -->
@@ -43,9 +37,20 @@
 	            </tr>
 	        </thead>
 	        <tbody>
-	        </tbody>
+	          <% total_profit = 0 %>	
+			  <% @properties.each do |property| %>
+			    <tr>
+			      <td><%= property.property_address %></td>
+			      <td>$<%=number_with_precision(property.revenue, precision: 2)%></td>
+			      <td>$<%=number_with_precision(property.operating_costs, precision: 2) %></td>
+			      <td><button class="edit-btn">Edit</button><button class="delete-btn" data-id="<%= property.id %>">Delete</button></td>
+			      <% total_profit += property.revenue - property.operating_costs %>
+			    </tr>
+			  <% end %>
+			</tbody>
+
 	    </table>
-	    <h4>Total Profit (Per Month): <span id="total_profit_value">$</span></h4>
+	    <h4>Total Profit (Per Month): <span id="total_profit_value">$<%=number_with_precision(total_profit, precision: 2) %></span></h4>
 	</div>
 
 	<div class="property-oat">
