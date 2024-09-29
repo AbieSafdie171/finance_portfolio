@@ -4,7 +4,7 @@
 	    <h3>Properties</h3>
 	    <button id="addPropertyButton" class="add-property-button">Add Property</button>
 	    
-	    <!-- Modal -->
+	    <!-- Add Modal -->
 		<div id="propertyModal" class="modal">
 		  <div class="modal-content">
 		    <h2>Add New Property<span class="close">&times;</span></h2>
@@ -25,6 +25,29 @@
 		    </form>
 		  </div>
 		</div>
+
+		<!-- Edit Modal -->
+		<div id="editPropertyModal" class="modal">
+		  <div class="modal-content">
+		    <h2>Edit Property<span class="close">&times;</span></h2>
+		    <form id="editPropertyForm">
+		        <label class="property-label" for="location">Location/Address</label>
+		        <input class="property-input" type="text" id="edit-location" name="location" required>
+		        <br/>
+
+		        <label class="property-label" for="revenue">Revenue (Per Month)</label>
+		        <input class="property-input" type="number" id="edit-revenue" name="revenue" required>
+		        <br/>
+
+		        <label class="property-label" for="expenses">Operating Costs (Per Month)</label>
+		        <input class="property-input" type="number" id="edit-expenses" name="expenses" required>
+		        <br/>
+
+		        <button type="submit">Save Property</button>
+		    </form>
+		  </div>
+		</div>
+
 	    
 	    <!-- Property Table -->
 	    <table id="propertyTable" class="property-table">

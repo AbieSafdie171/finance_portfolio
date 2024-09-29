@@ -72,13 +72,6 @@ function initializePropertyModal() {
             modal.style.display = "none";
         }
 
-        // Close modal if user clicks outside of it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
         // Handle form submission and send data to Rails via AJAX
         const propertyForm = document.getElementById("propertyForm");
         propertyForm.addEventListener('submit', function(event) {
@@ -111,10 +104,12 @@ function initializePropertyModal() {
                     // Add the new property to the table
                     const table = document.getElementById("propertyTable").getElementsByTagName('tbody')[0];
                     const newRow = table.insertRow();
+                    var revenue = data.property.revenue;
+                    var operating_costs = data.property.operating_costs;
                     console.log("IF: ", data.property.property_address);
                     newRow.insertCell(0).innerHTML = data.property.property_address;
-                    newRow.insertCell(1).innerHTML = '$' + data.property.revenue;
-                    newRow.insertCell(2).innerHTML = '$' + data.property.operating_costs;
+                    newRow.insertCell(1).innerHTML = `$${revenue.toFixed(2)}`;
+                    newRow.insertCell(2).innerHTML = `$${operating_costs.toFixed(2)}`;
                     newRow.insertCell(3).innerHTML = `<button class="edit-btn">Edit</button><button class="delete-btn" data-id="${data.property.id}">Delete</button>`;
 
                     // Clear the form and close the modal
@@ -122,6 +117,7 @@ function initializePropertyModal() {
                     modal.style.display = "none";
                     updateTotalProfit();
                     initializeDeleteButtons();
+                    editPropertyModal()
                 } else {
                     alert("Error: " + data.errors.join(", "));
                 }
@@ -132,26 +128,102 @@ function initializePropertyModal() {
 }
 
 
-// Having an issue where delete button wont work after updating
-    // maybe init delete button first always
-    // figure the diff between dom and turbo for this context
-    // 
+function editPropertyModal() {
+    if (window.location.pathname === '/properties'){
+        const modal = document.getElementById("editPropertyModal");
+        const closeModal = document.getElementsByClassName("close")[1]; // Close button for edit modal
+        const propertyForm = document.getElementById("editPropertyForm"); // The edit form
+        const locationInput = document.getElementById("edit-location"); // Location input in the form
+        const revenueInput = document.getElementById("edit-revenue"); // Revenue input in the form
+        const expensesInput = document.getElementById("edit-expenses"); // Expenses input in the form
 
+        let currentPropertyId = null; // Variable to track the property ID being edited
 
-// Event listener for the initial page load
-/*
-document.addEventListener('DOMContentLoaded', (event) => {
-    if (initial == 0){
-        initializePropertyModal();
-        initializeDeleteButtons();
-        initial = 1;
+        // Close the modal
+        closeModal.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Attach event listeners to each edit button
+        const editButtons = document.querySelectorAll('.edit-btn');
+        editButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Get the property row associated with this button
+                const row = this.closest('tr');
+                currentPropertyId = this.nextElementSibling.getAttribute('data-id'); // Get the property ID from the Delete button
+
+                const propertyAddress = row.cells[0].innerText;
+                const revenue = parseFloat(row.cells[1].innerText.replace('$', ''));
+                const operatingCosts = parseFloat(row.cells[2].innerText.replace('$', ''));
+
+                // Populate the modal form with the property data
+                locationInput.value = propertyAddress;
+                revenueInput.value = revenue;
+                expensesInput.value = operatingCosts;
+
+                // Open the modal
+                modal.style.display = "block";
+            });
+        });
+
+        // Handle form submission for editing
+        propertyForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+
+            // Gather the updated property data from the form
+            const updatedLocation = locationInput.value;
+            const updatedRevenue = revenueInput.value;
+            const updatedExpenses = expensesInput.value;
+
+            // Send the AJAX PATCH request to update the property in the database
+            fetch(`/properties/${currentPropertyId}`, {
+                method: 'PATCH', // HTTP method for updating a resource
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").getAttribute("content") // Include CSRF token
+                },
+                body: JSON.stringify({
+                    property: {
+                        property_address: updatedLocation,
+                        revenue: updatedRevenue,
+                        operating_costs: updatedExpenses
+                    }
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update the table row with the new data
+                    const updatedRow = document.querySelector(`.delete-btn[data-id='${currentPropertyId}']`).closest('tr');
+                    updatedRow.cells[0].innerText = updatedLocation;
+                    updatedRow.cells[1].innerText = `$${parseFloat(updatedRevenue).toFixed(2)}`;
+                    updatedRow.cells[2].innerText = `$${parseFloat(updatedExpenses).toFixed(2)}`;
+
+                    // Close the modal
+                    modal.style.display = "none";
+                    updateTotalProfit(); // Recalculate the total profit after the update
+                } else {
+                    alert('Error updating property: ' + data.errors.join(', '));
+                }
+            })
+            .catch(error => {
+                console.error("Error updating property:", error);
+            });
+        });
     }
-    
-});
-*/
+}
+
+
+
+
+
+
+
+
 
 // Event listener for Turbo page loads
 document.addEventListener('turbo:load', (event) => {
         initializePropertyModal();
+        editPropertyModal()
         initializeDeleteButtons();
 });

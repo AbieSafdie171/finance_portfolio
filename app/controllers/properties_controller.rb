@@ -1,11 +1,19 @@
 class PropertiesController < ApplicationController
   before_action :authenticate_user! # Ensure user is signed in
-  before_action :set_property, only: [:destroy]
+  before_action :set_property, only: [:destroy, :update]
 
   def index
     @properties = Property.all # Fetch all properties
     @user_properties = current_user.properties
     render 'properties/properties' # Render the same view for index
+  end
+
+  def update
+    if @property.update(property_params)
+      render json: { success: true, property: @property }
+    else
+      render json: { success: false, errors: @property.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def create
